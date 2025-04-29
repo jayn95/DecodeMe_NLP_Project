@@ -1,0 +1,318 @@
+body {
+  margin: 0;
+  font-family: "Press Start 2P", system-ui;
+  height: 100vh; /* Ensure the body takes up full viewport height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Prevent scrollbars */
+  position: relative; /* Ensure positioning of child elements */
+  background: url('bg1.svg');
+  background-size: cover; /* Ensure the image covers the entire browser window */
+  overflow: hidden;    /* Hide any content that overflows */
+  box-shadow: 8px 8px 0px #0b070c;
+  display: flex;
+  background-color: #f4c6e8;
+}
+
+.browser-window {
+  position: absolute;  /* Position the browser window as absolute */
+  top: 0;              /* Align it to the top */
+  left: 0;             /* Align it to the left */
+  width: 100vw;        /* Cover full viewport width */
+  height: 100vh;       /* Cover full viewport height */
+  flex-direction: column; /* Stack child elements vertically */
+}
+
+.window-header {
+  display: flex;
+  align-items: center;
+  padding: 14px 10px;
+  background-color: #E284D8;
+  box-shadow: inset 0px -10px 15px #EE4EFC, inset 0px 10px 15px #EE4EFC; /* Adjusted shadow for balance */
+}
+
+
+.circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 2px solid black;
+  margin: 10px;
+}
+
+.red { background-color: #B91919; }
+.yellow { background-color: #ffbd2e; }
+.green { background-color: #27c93f; }
+
+.game-screen {
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1; /* Allow this section to grow and fill the remaining space */
+  position: relative; /* 👈 Add this! */
+  overflow: hidden; /* Optional: prevents anything from leaking outside */
+}
+
+.start-img {
+  position: relative; /* Set the container to relative positioning */
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  align-items: center; /* Center elements horizontally */
+}
+
+.start-img h1 {
+  position: absolute; /* Position the title absolutely within the container */
+  top: 20%; /* Center the title vertically within the container */
+  background: #D9D9D9;
+  color: white; /* Text fill color */
+  text-shadow: 
+    -3px -3px 0 black, /* Top-left shadow */
+    3px -3px 0 black,  /* Top-right shadow */
+    -3px 3px 0 black,  /* Bottom-left shadow */
+    3px 3px 0 black;   /* Bottom-right shadow */
+  display: inline-block;
+  padding: 20px 50px;
+  font-size: 45px;
+  margin-bottom: 5px;
+  border: 10px solid #000;
+  border-radius: 10px;
+}
+
+.start-image {
+  width: 90%;
+  height: auto;
+}
+
+.start-button {
+  position: absolute;
+  top: 43%; /* Adjust the vertical position (50% of the container height) */
+  left: 50%; /* Adjust the horizontal position (50% of the container width) */
+  transform: translate(-50%, -50%); /* Center the button over the image */
+  z-index: 1; /* Ensure the button appears above the image */
+  font-size: 20px;
+  padding: 5px 15px;
+  background: none; /* Remove the background */
+  border: none; /* Remove the border */
+  cursor: pointer;
+  color: black; /* Optional: Set text color */
+  font-family: "Press Start 2P", system-ui;
+  animation: blink 1s infinite; /* Add blinking effect */
+}
+
+/* Keyframes for blinking effect */
+@keyframes blink {
+  0%, 100% {
+    opacity: 1; /* Fully visible */
+  }
+  50% {
+    opacity: 0; /* Fully transparent */
+  }
+}
+
+/* Nested Browser Window */
+.inner-browser-window {
+  position: absolute;  /* Absolute positioning within the parent browser window */
+  top: 50%;            /* Vertically center the window */
+  left: 50%;           /* Horizontally center the window */
+  transform: translate(-50%, -50%); /* Offset by 50% to truly center the element */
+  width: 80vw;         /* Use viewport width for responsiveness */
+  height: 80vh;        /* Use viewport height for responsiveness */
+  max-width: 1000px;   /* Max width to prevent overly large windows */
+  max-height: 800px;   /* Max height to prevent overly large windows */
+  background-color: #fff;
+  border: 2px solid #aaa;
+  border-radius: 10px;
+  overflow: hidden;    /* Hide any content that overflows */
+  box-shadow: 8px 8px 0px #9c3dbf;
+  display: flex;
+  flex-direction: column; /* Stack child elements vertically */
+}
+
+.answer-box {
+  position: absolute;
+  top: 67%;
+  left: 71%;
+  transform: translate(-50%, -50%);
+  border: 5px solid #000;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #f4f4f4;
+  width: 320px;
+  height: 275px;
+  text-align: center;
+  display: flex;            /* 👈 Make it a flex container */
+  flex-direction: column;   /* 👈 Stack children vertically */
+  justify-content: flex-start; /* 👈 Align from top */
+}
+
+
+.answer-box h3 {
+  margin-bottom: 20px;
+  font-family: "Press Start 2P", system-ui;
+  text-align: left; /* Align text to the right */
+}
+
+.answer-input {
+  width: 80%;
+  height: 50px; /* Extended height of the text box */
+  padding: 10px;
+  font-size: 16px;
+  border: 10px solid #000;
+  border-radius: 5px;
+  font-family: "Press Start 2P", system-ui;
+}
+
+.answer-textarea {
+  width: 100%;
+  flex-grow: 1; /* 👈 Let it expand inside the parent */
+  padding: 10px;
+  font-size: 12px;
+  text-align: left;
+  border: 5px solid #000;
+  border-radius: 5px;
+  font-family: "Press Start 2P", system-ui;
+  resize: none;
+  min-height: 100px; /* optional: minimum height */
+}
+
+.card-overlay {
+  position: absolute; /* Position it relative to the game-screen */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Adjust for true centering */
+  z-index: 10; /* Ensure it appears above other elements */
+}
+
+.card-image {
+  width: 350px; /* Adjust size as needed */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 10px; /* Optional: Add rounded corners */
+  transition: transform 0.6s ease, opacity 0.6s ease; /* Smooth transition for flipping */
+  transform-style: preserve-3d; /* Enable 3D transformations */
+}
+
+.card-image[data-flipped="true"] {
+  transform: rotateY(180deg); /* Flip the card */
+  opacity: 0.9; /* Optional: Slightly reduce opacity for effect */
+}
+
+.card-image[data-flipped="false"] {
+  transform: rotateY(0deg); /* Reset to the front */
+  opacity: 1; /* Full opacity */
+}
+
+/* Media Queries for responsiveness */
+@media (max-width: 768px) {
+  .browser-window {
+    width: 90vw;  /* Adjust width to 90% of the viewport for tablets */
+    height: 90vh; /* Adjust height to 90% of the viewport for tablets */
+  }
+
+  .inner-browser-window {
+    width: 85vw;  /* Slightly smaller for inner window */
+    height: 85vh;
+  }
+
+  .window-header {
+    padding: 15px 10px;  /* Reduce padding for smaller screens */
+  }
+
+  .circle {
+    width: 16px;  /* Smaller circles for smaller screens */
+    height: 16px;
+    margin: 5px;
+  }
+
+  .content-box {
+    padding: 30px;
+  }
+
+  .start-button {
+    font-size: 14px;
+    padding: 5px 10px;
+  }
+
+  .answer-box {
+    width: 90%;
+    height: 250px; /* Adjust height for smaller screens */
+    padding: 15px;
+  }
+
+  .answer-box h3 {
+    font-size: 14px; /* Reduce font size for heading */
+    margin-bottom: 15px;
+  }
+
+  .answer-textarea {
+    height: 200px; /* Adjust textarea height */
+    font-size: 14px; /* Reduce font size for textarea */
+  }
+}
+
+@media (max-width: 480px) {
+  .browser-window {
+    width: 95vw;  /* Adjust width to 95% of the viewport for smaller screens */
+    height: 95vh; /* Adjust height to 95% of the viewport for smaller screens */
+  }
+
+  .inner-browser-window {
+    width: 90vw;  /* Slightly smaller for inner window */
+    height: 90vh;
+  }
+
+  .window-header {
+    padding: 10px 5px;  /* Further reduce padding */
+  }
+
+  .circle {
+    width: 12px;  /* Even smaller circles */
+    height: 12px;
+    margin: 5px;
+  }
+
+  .content-box {
+    padding: 20px;
+  }
+
+  .start-button {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+
+  .answer-box {
+    width: 95%;
+    height: 220px; /* Further adjust height for smaller screens */
+    padding: 10px;
+  }
+
+  .answer-box h3 {
+    font-size: 12px; /* Further reduce font size for heading */
+    margin-bottom: 10px;
+  }
+
+  .answer-textarea {
+    height: 180px; /* Further adjust textarea height */
+    font-size: 12px; /* Further reduce font size for textarea */
+  }
+
+.loading-overlay {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-dark background */
+    z-index: 1000; /* Ensure it appears above other elements */
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 2rem;
+    font-family: 'Press Start 2P', cursive;
+  }
+
+  
+}

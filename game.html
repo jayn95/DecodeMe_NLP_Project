@@ -1,0 +1,63 @@
+<html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixel Game Layout</title>
+  <link rel="stylesheet" href="design.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div class="browser-window">
+    <div class="window-header">
+      <span class="circle red"></span>
+      <span class="circle yellow"></span>
+      <span class="circle green"></span>
+    </div>
+    <div class="game-screen">
+      <div class="start-img">
+        <h2 class="motto">Unlock Your Career Path in ICT</h2>
+        <img src="game.svg" alt="Start" class="start-image">
+        <div class="answer-box">
+          <h3>Your answer:</h3>
+          <textarea class="answer-textarea" placeholder="Press Enter to proceed"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading-overlay">
+    <p>Loading...</p>
+  </div>
+</body>
+
+<script>
+  const textarea = document.querySelector('.answer-textarea');
+  const startImg = document.querySelector('.start-img');
+  const loadingOverlay = document.querySelector('.loading-overlay');
+
+  textarea.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Prevents newline
+
+      // Check if the textarea has content
+      if (textarea.value.trim() === '') {
+        alert('Please provide an answer before proceeding.');
+        return;
+      }
+
+      startImg.style.display = 'none'; // Hide start screen
+      loadingOverlay.style.display = 'flex'; // Show semi-dark overlay with loading text
+
+      // Simulate a delay, e.g., 2 seconds, then redirect to results.html
+      setTimeout(() => {
+        window.location.href = 'results.html'; // Redirect to results.html
+      }, 2000);
+    }
+  });
+</script>
+
+</html>
