@@ -105,43 +105,34 @@ class StartScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: LayoutBuilder(builder: (context, constraints) {
-                        // For larger screens, show in a row
                         if (constraints.maxWidth > 700) {
+                          double cardWidth = (constraints.maxWidth - 32) / 3;
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              SizedBox(
-                                width: (constraints.maxWidth - 32) / 3,
-                                child: _buildFeatureCard(
-                                  'Explore',
-                                  'Answer quick questions to reveal careers that match your interests.',
-                                  Icons.search,
-                                ),
+                              _buildFeatureCard(
+                                'Explore',
+                                'Answer quick questions to reveal careers that match your interests.',
+                                Icons.search,
+                                width: cardWidth,
                               ),
                               const SizedBox(width: 16),
-                              SizedBox(
-                                width: (constraints.maxWidth - 32) / 3,
-                                child: _buildFeatureCard(
-                                  'Match',
-                                  'Explore tailored career options based on your answers.',
-                                  Icons.person,
-                                ),
+                              _buildFeatureCard(
+                                'Match',
+                                'Explore tailored career options based on your answers.',
+                                Icons.person,
+                                width: cardWidth,
                               ),
                               const SizedBox(width: 16),
-                              SizedBox(
-                                width: (constraints.maxWidth - 32) / 3,
-                                child: _buildFeatureCard(
-                                  'Start',
-                                  'Take the first step toward your future in ICT.',
-                                  Icons.location_on,
-                                ),
+                              _buildFeatureCard(
+                                'Start',
+                                'Take the first step toward your future in ICT.',
+                                Icons.location_on,
+                                width: cardWidth,
                               ),
                             ],
                           );
-                        }
-                        // For smaller screens, stack vertically but with fixed width
-                        else {
-                          // Fixed width for smaller screens - adjust this value as needed
+                        } else {
                           double cardWidth = constraints.maxWidth > 400
                               ? 400
                               : constraints.maxWidth - 32;
@@ -149,31 +140,25 @@ class StartScreen extends StatelessWidget {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              SizedBox(
+                              _buildFeatureCard(
+                                'Explore',
+                                'Answer quick questions to reveal careers that match your interests.',
+                                Icons.search,
                                 width: cardWidth,
-                                child: _buildFeatureCard(
-                                  'Explore',
-                                  'Answer quick questions to reveal careers that match your interests.',
-                                  Icons.search,
-                                ),
                               ),
                               const SizedBox(height: 16),
-                              SizedBox(
+                              _buildFeatureCard(
+                                'Match',
+                                'Explore tailored career options based on your answers.',
+                                Icons.person,
                                 width: cardWidth,
-                                child: _buildFeatureCard(
-                                  'Match',
-                                  'Explore tailored career options based on your answers.',
-                                  Icons.person,
-                                ),
                               ),
                               const SizedBox(height: 16),
-                              SizedBox(
+                              _buildFeatureCard(
+                                'Start',
+                                'Take the first step toward your future in ICT.',
+                                Icons.location_on,
                                 width: cardWidth,
-                                child: _buildFeatureCard(
-                                  'Start',
-                                  'Take the first step toward your future in ICT.',
-                                  Icons.location_on,
-                                ),
                               ),
                             ],
                           );
@@ -219,10 +204,8 @@ class StartScreen extends StatelessWidget {
                     // Team member grid
                     LayoutBuilder(
                       builder: (context, constraints) {
-                        // Get the available width
                         final availableWidth = constraints.maxWidth;
 
-                        // Decide layout based on screen width
                         if (availableWidth > 700) {
                           return Column(
                             children: [
@@ -232,15 +215,16 @@ class StartScreen extends StatelessWidget {
                                 children: [
                                   Expanded(
                                       child: _buildTeamMemberCard(
-                                          'Nel Adryan Alanan')),
+                                          'Nel Adryan Alanan', 'Ash.JPG')),
                                   const SizedBox(width: 16),
                                   Expanded(
                                       child: _buildTeamMemberCard(
-                                          'Pauline Joy Bautista')),
+                                          'Pauline Joy Bautista', 'Ash.JPG')),
                                   const SizedBox(width: 16),
                                   Expanded(
                                       child: _buildTeamMemberCard(
-                                          'Ashley Denise Feliciano')),
+                                          'Ashley Denise Feliciano',
+                                          'Ash.JPG')),
                                 ],
                               ),
                               const SizedBox(height: 16),
@@ -248,36 +232,31 @@ class StartScreen extends StatelessWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  SizedBox(
-                                      width: availableWidth *
-                                          0.16), // For centering the 2 cards
+                                  SizedBox(width: availableWidth * 0.16),
                                   Expanded(
                                       child: _buildTeamMemberCard(
-                                          'Patrick Joseph Napud')),
+                                          'Patrick Joseph Napud', 'Ash.JPG')),
                                   const SizedBox(width: 16),
                                   Expanded(
-                                      child:
-                                          _buildTeamMemberCard('Jill Navarra')),
-                                  SizedBox(
-                                      width: availableWidth *
-                                          0.16), // For centering the 2 cards
+                                      child: _buildTeamMemberCard(
+                                          'Jill Navarra', 'Ash.JPG')),
+                                  SizedBox(width: availableWidth * 0.16),
                                 ],
                               ),
                             ],
                           );
                         } else if (availableWidth > 500) {
-                          // Medium screens - 2 columns grid
                           return Column(
                             children: [
                               Row(
                                 children: [
                                   Expanded(
                                       child: _buildTeamMemberCard(
-                                          'Nel Adryan Alanan')),
+                                          'Nel Adryan Alanan', 'Ash.JPG')),
                                   const SizedBox(width: 16),
                                   Expanded(
                                       child: _buildTeamMemberCard(
-                                          'Pauline Joy Bautista')),
+                                          'Pauline Joy Bautista', 'Ash.JPG')),
                                 ],
                               ),
                               const SizedBox(height: 16),
@@ -285,33 +264,38 @@ class StartScreen extends StatelessWidget {
                                 children: [
                                   Expanded(
                                       child: _buildTeamMemberCard(
-                                          'Ashley Denise Feliciano')),
+                                          'Ashley Denise Feliciano',
+                                          'Ash.JPG')),
                                   const SizedBox(width: 16),
                                   Expanded(
                                       child: _buildTeamMemberCard(
-                                          'Patrick Joseph Napud')),
+                                          'Patrick Joseph Napud', 'Ash.JPG')),
                                 ],
                               ),
                               const SizedBox(height: 16),
                               SizedBox(
                                 width: availableWidth / 2,
-                                child: _buildTeamMemberCard('Jill Navarra'),
+                                child: _buildTeamMemberCard(
+                                    'Jill Navarra', 'Ash.JPG'),
                               ),
                             ],
                           );
                         } else {
-                          // Small screens - single column
                           return Column(
                             children: [
-                              _buildTeamMemberCard('Nel Adryan Alanan'),
+                              _buildTeamMemberCard(
+                                  'Nel Adryan Alanan', 'Ash.JPG'),
                               const SizedBox(height: 16),
-                              _buildTeamMemberCard('Pauline Joy Bautista'),
+                              _buildTeamMemberCard(
+                                  'Pauline Joy Bautista', 'Ash.JPG'),
                               const SizedBox(height: 16),
-                              _buildTeamMemberCard('Ashley Denise Feliciano'),
+                              _buildTeamMemberCard(
+                                  'Ashley Denise Feliciano', 'Ash.JPG'),
                               const SizedBox(height: 16),
-                              _buildTeamMemberCard('Patrick Joseph Napud'),
+                              _buildTeamMemberCard(
+                                  'Patrick Joseph Napud', 'Ash.JPG'),
                               const SizedBox(height: 16),
-                              _buildTeamMemberCard('Jill Navarra'),
+                              _buildTeamMemberCard('Jill Navarra', 'Ash.JPG'),
                             ],
                           );
                         }
@@ -328,11 +312,13 @@ class StartScreen extends StatelessWidget {
     );
   }
 
-  // Helper method to build feature cards - ensuring consistent heights
-  Widget _buildFeatureCard(String title, String description, IconData icon) {
+  // Feature card with adaptive width and flexible height
+  Widget _buildFeatureCard(String title, String description, IconData icon,
+      {double? width}) {
     return Container(
+      width: width,
       padding: const EdgeInsets.all(24),
-      height: 220,
+      constraints: const BoxConstraints(minHeight: 180),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
@@ -376,60 +362,38 @@ class StartScreen extends StatelessWidget {
     );
   }
 
-  // Helper method to build team member cards with photos
-  Widget _buildTeamMemberCard(String name) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
-        border: Border.all(
-          color: name == 'Nel Adryan Alanan' ? Colors.blue : Colors.transparent,
-          width: 2,
-        ),
-      ),
-      height: 200,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Circular Photo
-          Container(
-            width: 120,
-            height: 120,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: Colors.grey[300]!,
-                width: 2,
-              ),
-              image: const DecorationImage(
-                image: AssetImage('assets/Ash.JPG'),
+  Widget _buildTeamMemberCard(String name, String imageFileName) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Calculate image size with padding (80% of available width)
+        final double imageSize = constraints.maxWidth * 0.8;
+
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: imageSize,
+              height: imageSize,
+              child: Image.asset(
+                'assets/$imageFileName',
                 fit: BoxFit.cover,
               ),
             ),
-          ),
-          const SizedBox(height: 12),
-          // Name
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              name,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+            const SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: Text(
+                name,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-        ],
-      ),
+          ],
+        );
+      },
     );
   }
 }
