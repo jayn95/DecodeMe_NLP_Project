@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'result_screen.dart'; // Import the new result screen
+import 'result_screen.dart'; // Add this import
 
 class GameScreen extends StatefulWidget {
   const GameScreen({super.key});
@@ -15,6 +15,7 @@ class _GameScreenState extends State<GameScreen> {
     "Describe your ideal project.",
   ];
 
+  final List<Map<String, String>> _messages = [];
   final List<String> _answers = [];
   int _currentQuestion = 0;
   final TextEditingController _controller = TextEditingController();
@@ -38,23 +39,51 @@ class _GameScreenState extends State<GameScreen> {
     "scholar": "Guru",
   };
 
+  @override
+  void initState() {
+    super.initState();
+    _addBotMessage(_questions[_currentQuestion]);
+  }
+
+  Future<void> _addBotMessage(String message) async {
+    setState(() {
+      _messages.add({'type': 'bot', 'text': ''}); // placeholder
+    });
+
+    for (int i = 0; i <= message.length; i++) {
+      await Future.delayed(const Duration(milliseconds: 25)); // typing speed
+      setState(() {
+        _messages[_messages.length - 1]['text'] = message.substring(0, i);
+      });
+    }
+  }
+
+  void _addUserMessage(String message) {
+    _messages.add({'type': 'user', 'text': message});
+  }
+
   void _submitAnswer() {
     final answer = _controller.text.trim();
     if (answer.isEmpty) return;
+
     setState(() {
+      _addUserMessage(answer);
       _answers.add(answer);
       _controller.clear();
+    });
+
+    Future.delayed(const Duration(milliseconds: 300), () async {
       if (_currentQuestion < _questions.length - 1) {
         _currentQuestion++;
+        await _addBotMessage(_questions[_currentQuestion]);
       } else {
-        // Calculate archetype and navigate to ResultScreen
-        final archetypeResult = _calculateArchetype();
+        final archetype = _calculateArchetype();
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder:
                 (context) => ResultScreen(
-                  archetypeResult: archetypeResult,
+                  archetypeResult: archetype,
                   questions: _questions,
                   answers: _answers,
                   onRestart: () {
@@ -104,52 +133,138 @@ class _GameScreenState extends State<GameScreen> {
     super.dispose();
   }
 
+  Widget _buildMessage(Map<String, String> message) {
+    final isBot = message['type'] == 'bot';
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        mainAxisAlignment:
+            isBot ? MainAxisAlignment.start : MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (isBot)
+            Padding(
+              padding: const EdgeInsets.only(right: 10.0),
+              child: Image.asset("assets/bgs/bot.png", width: 40, height: 40),
+            ),
+          Flexible(
+            child: Container(
+              constraints: BoxConstraints(
+                maxWidth:
+                    screenWidth * 0.7, // responsive width for smaller devices
+              ),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: const Color(0xA88ECAE6),
+                borderRadius: BorderRadius.circular(40),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 6,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Text(
+                message['text']!,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 20, // RETAIN your original font size
+                ),
+                softWrap: true,
+              ),
+            ),
+          ),
+          if (!isBot)
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: Image.asset("assets/bgs/user.png", width: 40, height: 40),
+            ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(
-              "assets/bgs/background.png",
-            ), // Ensure the image is added to your assets
-            fit: BoxFit.fitWidth,
+            image: AssetImage("assets/bgs/chatbg.png"),
+            fit: BoxFit.cover,
           ),
         ),
         child: SafeArea(
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(32.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    _questions[_currentQuestion],
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color:
-                          Colors
-                              .white, // Adjust for visibility on the background
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.1,
+            ),
+            child: Column(
+              children: [
+                const SizedBox(height: 18),
+                Image.asset(
+                  'assets/bgs/logo.png',
+                  width: MediaQuery.of(context).size.width * 0.2,
+                ),
+                const SizedBox(height: 8),
+                const SizedBox(height: 6),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 8.0,
+                    vertical: 5.0,
+                  ), // Added bottom padding
+                  child: Text(
+                    "Answer the questions as truthfully as you can.",
+                    style: TextStyle(
+                      color: Color.fromARGB(179, 0, 0, 0),
+                      fontSize: 24,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 24),
-                  TextField(
+                ),
+                const SizedBox(height: 16),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: _messages.length,
+                    itemBuilder: (context, index) {
+                      return _buildMessage(_messages[index]);
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width * 0.1,
+                    right: MediaQuery.of(context).size.width * 0.1,
+                    bottom: 70,
+                  ),
+                  child: TextField(
                     controller: _controller,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Type your answer here...',
-                    ),
                     onSubmitted: (_) => _submitAnswer(),
+                    textAlign: TextAlign.justify,
+                    maxLines: 1,
+                    decoration: InputDecoration(
+                      hintText: 'Type your message...',
+                      hintStyle: const TextStyle(fontSize: 20),
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 30,
+                        horizontal: 30,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      fillColor: Colors.white,
+                      filled: true,
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.arrow_forward),
+                        onPressed: _submitAnswer,
+                      ),
+                    ),
                   ),
-                  const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: _submitAnswer,
-                    child: const Text("Submit"),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
