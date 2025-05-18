@@ -1,173 +1,399 @@
 import 'package:flutter/material.dart';
 
 class StartScreen extends StatelessWidget {
-  const StartScreen({super.key});
+  const StartScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // Hero Section
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 60),
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.white, Color(0xFFE0F7FA)],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
+      // Using Stack to place elements on top of the background
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.white,
+              Color.fromARGB(32, 82, 137, 188),
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        // Scrollable content
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 120),
+              // App logo or title
+              const Text(
+                'DecodeMe',
+                style: TextStyle(
+                  fontSize: 60,
+                  color: Colors.black,
                 ),
               ),
-              child: Column(
-                children: [
-                  Image.asset('assets/logo.png', height: 80), // use your logo
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Unlock Your Career Path in ICT',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              const SizedBox(height: 16),
+              // Subtitle or welcome message
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24),
+                child: Text(
+                  'Unlock Your Career Path in ICT',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
                   ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed:
-                        () => Navigator.pushReplacementNamed(context, '/chat'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.lightBlue.shade100,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              const SizedBox(height: 40),
+              // Get Started button
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Navigate to the chat route
+                    Navigator.pushNamed(context, '/chat');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFADD8E6),
+                    foregroundColor: Colors.black,
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 32),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  child: const Text(
+                    'Get Started',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 80),
+
+              // Second section - Features
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+                width: double.infinity,
+                child: Column(
+                  children: [
+                    const Text(
+                      'We believe in helping people',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
                       ),
                     ),
-                    child: const Text('Get Started'),
-                  ),
-                ],
-              ),
-            ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Find your confidence as you explore\nyour path in ICT.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const SizedBox(height: 40),
 
-            // Features Section
-            const Padding(
-              padding: EdgeInsets.all(20.0),
-              child: Column(
-                children: [
-                  Text(
-                    'We believe in helping people',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    'Find your confidence as you explore your path in ICT.',
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: 24),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      FeatureCard(
-                        title: 'Explore',
-                        icon: Icons.search,
-                        text: 'Answer quick questions to reveal careers.',
-                      ),
-                      FeatureCard(
-                        title: 'Match',
-                        icon: Icons.person,
-                        text: 'Explore tailored career options.',
-                      ),
-                      FeatureCard(
-                        title: 'Start',
-                        icon: Icons.location_on,
-                        text: 'Take the first step toward ICT.',
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+                    // Feature cards with consistent sizing
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: LayoutBuilder(builder: (context, constraints) {
+                        if (constraints.maxWidth > 700) {
+                          double cardWidth = (constraints.maxWidth - 32) / 3;
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              _buildFeatureCard(
+                                'Explore',
+                                'Answer quick questions to reveal careers that match your interests.',
+                                Icons.search,
+                                width: cardWidth,
+                              ),
+                              const SizedBox(width: 16),
+                              _buildFeatureCard(
+                                'Match',
+                                'Explore tailored career options based on your answers.',
+                                Icons.person,
+                                width: cardWidth,
+                              ),
+                              const SizedBox(width: 16),
+                              _buildFeatureCard(
+                                'Start',
+                                'Take the first step toward your future in ICT.',
+                                Icons.location_on,
+                                width: cardWidth,
+                              ),
+                            ],
+                          );
+                        } else {
+                          double cardWidth = constraints.maxWidth > 400
+                              ? 400
+                              : constraints.maxWidth - 32;
 
-            // Team Section
-            const Padding(
-              padding: EdgeInsets.all(20.0),
-              child: Column(
-                children: [
-                  Text(
-                    'Meet the Team',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    'Passionate and driven – we’re here to help you navigate your future.',
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: 24),
-                  Wrap(
-                    spacing: 16,
-                    runSpacing: 16,
-                    children: [
-                      TeamPlaceholder(),
-                      TeamPlaceholder(),
-                      TeamPlaceholder(),
-                      TeamPlaceholder(),
-                      TeamPlaceholder(),
-                    ],
-                  ),
-                ],
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              _buildFeatureCard(
+                                'Explore',
+                                'Answer quick questions to reveal careers that match your interests.',
+                                Icons.search,
+                                width: cardWidth,
+                              ),
+                              const SizedBox(height: 16),
+                              _buildFeatureCard(
+                                'Match',
+                                'Explore tailored career options based on your answers.',
+                                Icons.person,
+                                width: cardWidth,
+                              ),
+                              const SizedBox(height: 16),
+                              _buildFeatureCard(
+                                'Start',
+                                'Take the first step toward your future in ICT.',
+                                Icons.location_on,
+                                width: cardWidth,
+                              ),
+                            ],
+                          );
+                        }
+                      }),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+
+              const Divider(height: 1, thickness: 1, color: Color(0xFFEEEEEE)),
+
+              // Third section - Meet the Team
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+                width: double.infinity,
+                child: Column(
+                  children: [
+                    const Text(
+                      'Meet the Team',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 24),
+                      child: Text(
+                        'Passionate and driven — we\'re a group of people dedicated to helping you navigate your future in ICT.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+
+                    // Team member grid
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        final availableWidth = constraints.maxWidth;
+
+                        if (availableWidth > 700) {
+                          return Column(
+                            children: [
+                              // First row - 3 members
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                      child: _buildTeamMemberCard(
+                                          'Nel Adryan Alanan', 'Ash.JPG')),
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                      child: _buildTeamMemberCard(
+                                          'Pauline Joy Bautista', 'Ash.JPG')),
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                      child: _buildTeamMemberCard(
+                                          'Ashley Denise Feliciano',
+                                          'Ash.JPG')),
+                                ],
+                              ),
+                              const SizedBox(height: 16),
+                              // Second row - 2 members
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(width: availableWidth * 0.16),
+                                  Expanded(
+                                      child: _buildTeamMemberCard(
+                                          'Patrick Joseph Napud', 'Ash.JPG')),
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                      child: _buildTeamMemberCard(
+                                          'Jill Navarra', 'Ash.JPG')),
+                                  SizedBox(width: availableWidth * 0.16),
+                                ],
+                              ),
+                            ],
+                          );
+                        } else if (availableWidth > 500) {
+                          return Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                      child: _buildTeamMemberCard(
+                                          'Nel Adryan Alanan', 'Ash.JPG')),
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                      child: _buildTeamMemberCard(
+                                          'Pauline Joy Bautista', 'Ash.JPG')),
+                                ],
+                              ),
+                              const SizedBox(height: 16),
+                              Row(
+                                children: [
+                                  Expanded(
+                                      child: _buildTeamMemberCard(
+                                          'Ashley Denise Feliciano',
+                                          'Ash.JPG')),
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                      child: _buildTeamMemberCard(
+                                          'Patrick Joseph Napud', 'Ash.JPG')),
+                                ],
+                              ),
+                              const SizedBox(height: 16),
+                              SizedBox(
+                                width: availableWidth / 2,
+                                child: _buildTeamMemberCard(
+                                    'Jill Navarra', 'Ash.JPG'),
+                              ),
+                            ],
+                          );
+                        } else {
+                          return Column(
+                            children: [
+                              _buildTeamMemberCard(
+                                  'Nel Adryan Alanan', 'Ash.JPG'),
+                              const SizedBox(height: 16),
+                              _buildTeamMemberCard(
+                                  'Pauline Joy Bautista', 'Ash.JPG'),
+                              const SizedBox(height: 16),
+                              _buildTeamMemberCard(
+                                  'Ashley Denise Feliciano', 'Ash.JPG'),
+                              const SizedBox(height: 16),
+                              _buildTeamMemberCard(
+                                  'Patrick Joseph Napud', 'Ash.JPG'),
+                              const SizedBox(height: 16),
+                              _buildTeamMemberCard('Jill Navarra', 'Ash.JPG'),
+                            ],
+                          );
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 60),
+            ],
+          ),
         ),
       ),
     );
   }
-}
 
-class FeatureCard extends StatelessWidget {
-  final String title;
-  final IconData icon;
-  final String text;
-
-  const FeatureCard({
-    super.key,
-    required this.title,
-    required this.icon,
-    required this.text,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 100,
+  // Feature card with adaptive width and flexible height
+  Widget _buildFeatureCard(String title, String description, IconData icon,
+      {double? width}) {
+    return Container(
+      width: width,
+      padding: const EdgeInsets.all(24),
+      constraints: const BoxConstraints(minHeight: 180),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(icon, size: 32),
-          const SizedBox(height: 8),
-          Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-          const SizedBox(height: 4),
+          Icon(
+            icon,
+            size: 48,
+            color: Colors.grey[600],
+          ),
+          const SizedBox(height: 16),
           Text(
-            text,
+            title,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 12),
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            description,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.grey[700],
+            ),
           ),
         ],
       ),
     );
   }
-}
 
-class TeamPlaceholder extends StatelessWidget {
-  const TeamPlaceholder({super.key});
+  Widget _buildTeamMemberCard(String name, String imageFileName) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Calculate image size with padding (80% of available width)
+        final double imageSize = constraints.maxWidth * 0.8;
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 70,
-      height: 70,
-      decoration: BoxDecoration(
-        color: Colors.grey.shade300,
-        borderRadius: BorderRadius.circular(12),
-      ),
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: imageSize,
+              height: imageSize,
+              child: Image.asset(
+                'assets/$imageFileName',
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: Text(
+                name,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
