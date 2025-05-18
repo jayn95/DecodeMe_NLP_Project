@@ -13,7 +13,7 @@ app = Flask(__name__)
 # Load model and vectorizer
 model = joblib.load('model/naive_bayes.pkl')
 vectorizer = joblib.load('model/vectorizer.pkl')
-df = pd.read_csv('data/ict_subfields/dataset.csv')
+df = pd.read_csv('data/ict_subfields_dataset.csv')
 
 # Ensure dataset is preprocessed
 lemmatizer = WordNetLemmatizer()
