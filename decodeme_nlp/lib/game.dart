@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'result_screen.dart';
 import 'startpage.dart'; // Make sure you have this screen implemented
 
@@ -96,7 +98,7 @@ class _GameScreenState extends State<GameScreen>
     _messages.add({'type': 'user', 'text': message});
   }
 
-  void _submitAnswer() {
+  Future<void> _submitAnswer() async {
     final answer = _controller.text.trim();
     if (answer.isEmpty) return;
 
@@ -111,54 +113,65 @@ class _GameScreenState extends State<GameScreen>
         _currentQuestion++;
         await _addBotMessage(_questions[_currentQuestion]);
       } else {
-        final archetype = _calculateArchetype();
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder:
-                (context) => ResultScreen(
-                  archetypeResult: archetype,
-                  questions: _questions,
-                  answers: _answers,
-                  onRestart: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const GameScreen(),
-                      ),
-                    );
-                  },
-                ),
-          ),
-        );
+        // Call backend model here instead of local logic
+        final predictionData = await _fetchModelPrediction(_answers);
+        if (predictionData == null) {
+          // Show error message in chat or fallback
+          await _addBotMessage(
+            "Sorry, failed to get recommendation from server.",
+          );
+        } else {
+          // Extract final recommendation from server response
+          final archetype = predictionData['final_subfield'] ?? "Unknown";
+          final recommendedJob = predictionData['recommended_job'] ?? "N/A";
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder:
+                  (context) => ResultScreen(
+                    archetypeResult: archetype,
+                    questions: _questions,
+                    answers: _answers,
+                    recommendedJob: recommendedJob,
+                    onRestart: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const GameScreen(),
+                        ),
+                      );
+                    },
+                  ),
+            ),
+          );
+        }
       }
     });
   }
 
-  String _calculateArchetype() {
-    final Map<String, int> counts = {
-      "Hipster": 0,
-      "Hacker": 0,
-      "Hustler": 0,
-      "Guru": 0,
-    };
-    for (final answer in _answers) {
-      final lower = answer.toLowerCase();
-      _keywordToArchetype.forEach((keyword, archetype) {
-        if (lower.contains(keyword)) {
-          counts[archetype] = counts[archetype]! + 1;
-        }
-      });
-    }
-    String result = "a Mix!";
-    int max = 0;
-    counts.forEach((archetype, count) {
-      if (count > max) {
-        max = count;
-        result = archetype;
+  Future<Map<String, dynamic>?> _fetchModelPrediction(
+    List<String> answers,
+  ) async {
+    try {
+      final url = Uri.parse(
+        'https://your-backend-domain/predict',
+      ); // your model server URL
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'answers': answers}),
+      );
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        print('Error from backend: ${response.statusCode}');
+        return null;
       }
-    });
-    return result;
+    } catch (e) {
+      print('Exception during HTTP request: $e');
+      return null;
+    }
   }
 
   @override

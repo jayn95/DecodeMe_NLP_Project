@@ -4,6 +4,7 @@ class ResultScreen extends StatelessWidget {
   final String archetypeResult;
   final List<String> questions;
   final List<String> answers;
+  final String recommendedJob; // ✅ New parameter
   final VoidCallback onRestart;
 
   const ResultScreen({
@@ -11,6 +12,7 @@ class ResultScreen extends StatelessWidget {
     required this.archetypeResult,
     required this.questions,
     required this.answers,
+    required this.recommendedJob, // ✅ Add to constructor
     required this.onRestart,
   });
 
@@ -30,6 +32,16 @@ class ResultScreen extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  "Recommended Job: $recommendedJob", // ✅ Show the job
+                  style: const TextStyle(
+                    fontSize: 20,
+                    color: Colors.blueGrey,
+                    fontWeight: FontWeight.w500,
                   ),
                   textAlign: TextAlign.center,
                 ),
