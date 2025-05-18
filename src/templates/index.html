@@ -52,7 +52,11 @@
                                         <strong>Individual Predictions:</strong><br>
                                         1. ${data.individual_predictions[0]}<br>
                                         2. ${data.individual_predictions[1]}<br>
-                                        3. ${data.individual_predictions[2]}`;
+                                        3. ${data.individual_predictions[2]}<br>
+                                        <strong style="color:red;">Preprocessed Answers (for debug only):</strong><br>
+                                        1. ${data.processed_answers[0]}<br>
+                                        2. ${data.processed_answers[1]}<br>
+                                        3. ${data.processed_answers[2]}`;
                 }
             } catch (err) {
                 resultDiv.textContent = "An error occurred. Please try again.";

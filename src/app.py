@@ -55,9 +55,11 @@ def predict():
     dataset_vecs = vectorizer.transform(df['Processed_Text'])
     predictions = []
     similarities = []
+    processed_answers = []
 
     for answer in answers:
         processed = preprocess_text(answer)
+        processed_answers.append(processed)
         user_vec = vectorizer.transform([processed])
         similarity = cosine_similarity(user_vec, dataset_vecs)
         top_index = np.argmax(similarity)
@@ -83,7 +85,8 @@ def predict():
     return jsonify({
         "final_subfield": final_subfield,
         "recommended_job": recommended_job,
-        "individual_predictions": predictions
+        "individual_predictions": predictions,
+        "processed_answers": processed_answers
     })
 
 # (Optional) Route to frontend HTML
