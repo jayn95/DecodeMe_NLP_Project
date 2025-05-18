@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, render_template
 import pandas as pd
+import os
 import joblib
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
@@ -11,9 +12,21 @@ from nltk.stem import WordNetLemmatizer
 app = Flask(__name__)
 
 # Load model and vectorizer
-model = joblib.load('model/naive_bayes.pkl')
-vectorizer = joblib.load('model/vectorizer.pkl')
-df = pd.read_csv('data/ict_subfields_dataset.csv')
+
+# Get the directory of the current script (app.py)
+base_dir = os.path.dirname(__file__)
+
+# Build absolute paths
+model_path = os.path.join(base_dir, 'model', 'naive_bayes.pkl')
+vectorizer_path = os.path.join(base_dir, 'model', 'vectorizer.pkl')
+label_encoder_path = os.path.join(base_dir, 'model', 'label_encoder.pkl')
+df_path = os.path.join(base_dir, 'data', 'ict_subfields_dataset.csv')
+
+# Load the model and vectorizer
+model = joblib.load(model_path)
+vectorizer = joblib.load(vectorizer_path)
+label_encoder = joblib.load(label_encoder_path)
+df = pd.read_csv(df_path)
 
 # Ensure dataset is preprocessed
 lemmatizer = WordNetLemmatizer()
@@ -29,7 +42,7 @@ def preprocess_text(text):
 
 # Add Processed_Text column if not present
 if 'Processed_Text' not in df.columns:
-    df['Processed_Text'] = df['Tect'].apply(preprocess_text)
+    df['Processed_Text'] = df['Text'].apply(preprocess_text)
 
 # Main route for API
 @app.route('/predict', methods=['POST'])
