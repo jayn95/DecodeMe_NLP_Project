@@ -47,25 +47,43 @@ if 'Processed_Text' not in df.columns:
 # Main route for API
 @app.route('/predict', methods=['POST'])
 def predict():
-    user_input = request.json.get("text")
-    if not user_input:
-        return jsonify({"error": "No input provided"}), 400
+    # Expect a JSON with 3 answers
+    answers = request.json.get("answers")
+    if not answers or not isinstance(answers, list) or len(answers) != 3:
+        return jsonify({"error": "Please provide answers to all 3 questions."}), 400
 
-    # Preprocess and vectorize user input
-    processed = preprocess_text(user_input)
-    user_vec = vectorizer.transform([processed])
     dataset_vecs = vectorizer.transform(df['Processed_Text'])
+    predictions = []
+    similarities = []
 
-    # Cosine similarity
-    similarity = cosine_similarity(user_vec, dataset_vecs)
-    top_index = np.argmax(similarity)
+    for answer in answers:
+        processed = preprocess_text(answer)
+        user_vec = vectorizer.transform([processed])
+        similarity = cosine_similarity(user_vec, dataset_vecs)
+        top_index = np.argmax(similarity)
+        predictions.append(df['Subfield'].iloc[top_index])
+        similarities.append(similarity[0][top_index])
 
-    subfield = df['Subfield'].iloc[top_index]
-    job = df['Job Title'].iloc[top_index]
+    # Determine final subfield - majority vote or highest similarity
+    # Option 1: Majority vote
+    from collections import Counter
+    subfield_count = Counter(predictions)
+    final_subfield = subfield_count.most_common(1)[0][0]
+
+    # Option 2: If tie or just to be sure, pick the prediction with highest similarity
+    # Uncomment below if you want to use this instead:
+    # max_sim_index = np.argmax(similarities)
+    # final_subfield = predictions[max_sim_index]
+
+    # Get recommended job(s) for final_subfield
+    # For simplicity, pick first matching job in df for that subfield
+    final_jobs = df[df['Subfield'] == final_subfield]['Job Title'].unique()
+    recommended_job = final_jobs[0] if len(final_jobs) > 0 else "No job found"
 
     return jsonify({
-        "subfield": subfield,
-        "recommended_job": job
+        "final_subfield": final_subfield,
+        "recommended_job": recommended_job,
+        "individual_predictions": predictions
     })
 
 # (Optional) Route to frontend HTML
