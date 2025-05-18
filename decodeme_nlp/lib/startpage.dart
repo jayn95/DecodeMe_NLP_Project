@@ -34,29 +34,10 @@ class StartScreen extends StatelessWidget {
                 ),
               ),
 
-              // Get Started button
+              // Animated Get Started button
               Padding(
                 padding: const EdgeInsets.only(bottom: 32),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/chat');
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFADD8E6),
-                    foregroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 12,
-                      horizontal: 32,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                  child: const Text(
-                    'Get Started',
-                    style: TextStyle(fontSize: 24),
-                  ),
-                ),
+                child: _AnimatedGetStartedButton(),
               ),
 
               const SizedBox(height: 80),
@@ -408,6 +389,73 @@ class StartScreen extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+// Animated Get Started button widget with press scale effect and navigation
+class _AnimatedGetStartedButton extends StatefulWidget {
+  @override
+  State<_AnimatedGetStartedButton> createState() =>
+      _AnimatedGetStartedButtonState();
+}
+
+class _AnimatedGetStartedButtonState extends State<_AnimatedGetStartedButton>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scaleAnimation;
+
+  bool _pressed = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 150),
+    );
+
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(_controller);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Future<void> _onTap() async {
+    if (_pressed) return; // Prevent multiple taps
+
+    setState(() {
+      _pressed = true;
+    });
+
+    await _controller.forward();
+    await _controller.reverse();
+
+    if (mounted) {
+      Navigator.pushNamed(context, '/chat');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ScaleTransition(
+      scale: _scaleAnimation,
+      child: ElevatedButton(
+        onPressed: _onTap,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFFADD8E6),
+          foregroundColor: Colors.black,
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 32),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+        child: const Text('Get Started', style: TextStyle(fontSize: 24)),
+      ),
     );
   }
 }

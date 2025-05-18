@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'result_screen.dart'; // Add this import
+import 'result_screen.dart';
+import 'startpage.dart'; // Make sure you have this screen implemented
 
 class GameScreen extends StatefulWidget {
   const GameScreen({super.key});
@@ -8,7 +9,8 @@ class GameScreen extends StatefulWidget {
   State<GameScreen> createState() => _GameScreenState();
 }
 
-class _GameScreenState extends State<GameScreen> {
+class _GameScreenState extends State<GameScreen>
+    with SingleTickerProviderStateMixin {
   final List<String> _questions = [
     "Which activity do you enjoy most?",
     "What tool do you use the most?",
@@ -39,10 +41,42 @@ class _GameScreenState extends State<GameScreen> {
     "scholar": "Guru",
   };
 
+  late AnimationController _logoAnimationController;
+  late Animation<double> _logoScaleAnimation;
+  late Animation<double> _logoOpacityAnimation;
+
+  bool _showChat = false;
+
   @override
   void initState() {
     super.initState();
-    _addBotMessage(_questions[_currentQuestion]);
+
+    _logoAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
+
+    _logoScaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
+      CurvedAnimation(parent: _logoAnimationController, curve: Curves.easeOut),
+    );
+
+    _logoOpacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _logoAnimationController,
+        curve: const Interval(0.0, 0.7, curve: Curves.easeIn),
+      ),
+    );
+
+    _logoAnimationController.forward();
+
+    _logoAnimationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        setState(() {
+          _showChat = true;
+        });
+        _addBotMessage(_questions[_currentQuestion]);
+      }
+    });
   }
 
   Future<void> _addBotMessage(String message) async {
@@ -51,7 +85,7 @@ class _GameScreenState extends State<GameScreen> {
     });
 
     for (int i = 0; i <= message.length; i++) {
-      await Future.delayed(const Duration(milliseconds: 25)); // typing speed
+      await Future.delayed(const Duration(milliseconds: 25));
       setState(() {
         _messages[_messages.length - 1]['text'] = message.substring(0, i);
       });
@@ -130,6 +164,7 @@ class _GameScreenState extends State<GameScreen> {
   @override
   void dispose() {
     _controller.dispose();
+    _logoAnimationController.dispose();
     super.dispose();
   }
 
@@ -151,10 +186,7 @@ class _GameScreenState extends State<GameScreen> {
             ),
           Flexible(
             child: Container(
-              constraints: BoxConstraints(
-                maxWidth:
-                    screenWidth * 0.7, // responsive width for smaller devices
-              ),
+              constraints: BoxConstraints(maxWidth: screenWidth * 0.7),
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: const Color(0xA88ECAE6),
@@ -169,10 +201,7 @@ class _GameScreenState extends State<GameScreen> {
               ),
               child: Text(
                 message['text']!,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 20, // RETAIN your original font size
-                ),
+                style: const TextStyle(color: Colors.black, fontSize: 20),
                 softWrap: true,
               ),
             ),
@@ -198,74 +227,130 @@ class _GameScreenState extends State<GameScreen> {
           ),
         ),
         child: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.1,
-            ),
-            child: Column(
-              children: [
-                const SizedBox(height: 18),
-                Image.asset(
-                  'assets/bgs/logo.png',
-                  width: MediaQuery.of(context).size.width * 0.2,
-                ),
-                const SizedBox(height: 8),
-                const SizedBox(height: 6),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 8.0,
-                    vertical: 5.0,
-                  ), // Added bottom padding
-                  child: Text(
-                    "Answer the questions as truthfully as you can.",
-                    style: TextStyle(
-                      color: Color.fromARGB(179, 0, 0, 0),
-                      fontSize: 24,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: _messages.length,
-                    itemBuilder: (context, index) {
-                      return _buildMessage(_messages[index]);
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * 0.1,
-                    right: MediaQuery.of(context).size.width * 0.1,
-                    bottom: 70,
-                  ),
-                  child: TextField(
-                    controller: _controller,
-                    onSubmitted: (_) => _submitAnswer(),
-                    textAlign: TextAlign.justify,
-                    maxLines: 1,
-                    decoration: InputDecoration(
-                      hintText: 'Type your message...',
-                      hintStyle: const TextStyle(fontSize: 20),
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 30,
-                        horizontal: 30,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      fillColor: Colors.white,
-                      filled: true,
-                      suffixIcon: IconButton(
-                        icon: const Icon(Icons.arrow_forward),
-                        onPressed: _submitAnswer,
+          child: Stack(
+            children: [
+              Column(
+                children: [
+                  const SizedBox(height: 18),
+
+                  Center(
+                    child: AnimatedBuilder(
+                      animation: _logoAnimationController,
+                      builder: (context, child) {
+                        return Opacity(
+                          opacity: _logoOpacityAnimation.value,
+                          child: Transform.scale(
+                            scale: _logoScaleAnimation.value,
+                            child: child,
+                          ),
+                        );
+                      },
+                      child: Image.asset(
+                        'assets/bgs/logo.png',
+                        width: MediaQuery.of(context).size.width * 0.2,
                       ),
                     ),
                   ),
+
+                  const SizedBox(height: 20),
+
+                  Expanded(
+                    child:
+                        _showChat
+                            ? Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal:
+                                    MediaQuery.of(context).size.width * 0.1,
+                              ),
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0,
+                                      vertical: 5.0,
+                                    ),
+                                    child: Text(
+                                      "Answer the questions as truthfully as you can.",
+                                      style: TextStyle(
+                                        color: const Color.fromARGB(
+                                          179,
+                                          0,
+                                          0,
+                                          0,
+                                        ),
+                                        fontSize: 24,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 16),
+                                  Expanded(
+                                    child: ListView.builder(
+                                      itemCount: _messages.length,
+                                      itemBuilder: (context, index) {
+                                        return _buildMessage(_messages[index]);
+                                      },
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 70),
+                                    child: TextField(
+                                      controller: _controller,
+                                      onSubmitted: (_) => _submitAnswer(),
+                                      textAlign: TextAlign.justify,
+                                      maxLines: 1,
+                                      decoration: InputDecoration(
+                                        hintText: 'Type your message...',
+                                        hintStyle: const TextStyle(
+                                          fontSize: 20,
+                                        ),
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                              vertical: 30,
+                                              horizontal: 30,
+                                            ),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
+                                        ),
+                                        fillColor: Colors.white,
+                                        filled: true,
+                                        suffixIcon: IconButton(
+                                          icon: const Icon(Icons.arrow_forward),
+                                          onPressed: _submitAnswer,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                            : const SizedBox.expand(),
+                  ),
+                ],
+              ),
+
+              Positioned(
+                top: 16,
+                left: 16,
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    size: 32,
+                    color: Colors.black87,
+                  ),
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const StartScreen(),
+                      ),
+                    );
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
