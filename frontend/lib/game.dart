@@ -159,7 +159,7 @@ class _GameScreenState extends State<GameScreen>
 
       const String baseUrl =
           isProduction
-              ? 'https://your-backend-domain'
+              ? 'https://decodeme-nlp-project.onrender.com'
               : 'http://127.0.0.1:5000'; // your model server URL
 
       final url = Uri.parse('$baseUrl/predict'); // your model server URL
