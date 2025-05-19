@@ -1,0 +1,8 @@
+requests
+bs4
+pandas
+Flask
+scikit-learn
+nltk
+joblib
+gunicorn
