@@ -84,13 +84,14 @@ def predict():
     final_jobs = df[df['Subfield'] == final_subfield]['Job Title'].unique()
     recommended_job = final_jobs[0] if len(final_jobs) > 0 else "No job found"
 
+    print("Received data:", request.json)
+
     return jsonify({
         "final_subfield": final_subfield,
         "recommended_job": recommended_job,
         "individual_predictions": predictions,
         "processed_answers": processed_answers
     })
-    print("Received data:", request.json)
 
 from flask import send_from_directory
 
