@@ -95,7 +95,7 @@ def predict():
         job_description = final_jobs.iloc[0]['Job Description']
     else:
         recommended_job = "No job found"
-        job_description = "No description available"
+        job_description = "Look for information on the internet."
 
     # print("Received data:", request.json)
 

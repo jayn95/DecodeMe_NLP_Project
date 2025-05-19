@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'result_screen.dart';
 import 'startpage.dart'; // Make sure you have this screen implemented
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 
 class GameScreen extends StatefulWidget {
   const GameScreen({super.key});
@@ -125,8 +125,8 @@ class _GameScreenState extends State<GameScreen>
           // Extract final recommendation from server response
           final archetype = predictionData['final_subfield'] ?? "Unknown";
           final recommendedJob = predictionData['recommended_job'] ?? "N/A";
-          final jobDescription =
-              predictionData['job_description'] ?? "No description available";
+          // final jobDescription =
+          //     predictionData['job_description'] ?? "No description available";
 
           Navigator.pushReplacement(
             context,
@@ -137,7 +137,7 @@ class _GameScreenState extends State<GameScreen>
                     questions: _questions,
                     answers: _answers,
                     recommendedJob: recommendedJob,
-                    jobDescription: jobDescription,
+                    // jobDescription: jobDescription,
                     onRestart: () {
                       Navigator.pushReplacement(
                         context,

@@ -6,7 +6,6 @@ class ResultScreen extends StatefulWidget {
   final List<String> answers;
   final String recommendedJob;
   final VoidCallback onRestart;
-  final String jobDescription;
 
   const ResultScreen({
     super.key,
@@ -15,7 +14,6 @@ class ResultScreen extends StatefulWidget {
     required this.answers,
     required this.recommendedJob,
     required this.onRestart,
-    required this.jobDescription,
   });
 
   @override
@@ -130,15 +128,6 @@ class _ResultScreenState extends State<ResultScreen>
                                   fontSize: 20,
                                   color: Colors.black54,
                                   fontWeight: FontWeight.w500,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(height: 24),
-                              Text(
-                                "Job Description:\n${widget.jobDescription}",
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black87,
                                 ),
                                 textAlign: TextAlign.center,
                               ),
