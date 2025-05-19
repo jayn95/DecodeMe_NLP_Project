@@ -89,16 +89,6 @@ def predict():
     final_jobs = df[df['Subfield'] == final_subfield]['Job Title'].unique()
     recommended_job = final_jobs[0] if len(final_jobs) > 0 else "No job found"
 
-    # Pick the first job and get its description
-    if not final_jobs.empty:
-        recommended_job = final_jobs.iloc[0]['Job Title']
-        job_description = final_jobs.iloc[0]['Job Description']
-    else:
-        recommended_job = "No job found"
-        job_description = "No description available"
-
-    # print("Received data:", request.json)
-
     return jsonify({
         "final_subfield": final_subfield,
         "recommended_job": recommended_job,
@@ -118,5 +108,4 @@ def serve_static_file(path):
 
 # Run the app
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=5000)

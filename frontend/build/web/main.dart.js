@@ -38295,14 +38295,14 @@ o=this.a
 return A.eO(A.b([o.nO("Explore",r,B.lW,s),B.b2,o.nO("Match",q,B.lV,s),B.b2,o.nO("Start",p,B.lU,s)],t.E),B.X,B.a5,B.aq)}},
 $S:331}
 A.a9X.prototype={
-$2(a,b){var s,r,q,p="Nel Adryan Alanan",o="Pauline Joy Bautista",n="Ashley Denise Feliciano",m=null,l="Patrick Joseph Napud",k="Jill Navarra",j="Ash.JPG",i=b.b
+$2(a,b){var s,r,q,p="Nel Adryan Alanan",o="Pauline Joy Bautista",n="Ashley Denise Feliciano",m="bgs/ash.jpg",l=null,k="Patrick Joseph Napud",j="Jill Navarra",i=b.b
 if(i>700){s=this.a
 r=t.E
 q=i*0.16
-return A.eO(A.b([A.yt(A.b([A.iM(s.ft(p,"bgs/nel.jpg")),B.cE,A.iM(s.ft(o,"bgs/pau.JPG")),B.cE,A.iM(s.ft(n,"bgs/ash.JPG"))],r),B.X,B.d2,B.aq),B.b2,A.yt(A.b([A.ja(m,m,q),A.iM(s.ft(l,"bgs/pat.JPG")),B.cE,A.iM(s.ft(k,"bgs/jill.jpg")),A.ja(m,m,q)],r),B.X,B.d2,B.aq)],r),B.X,B.a5,B.aq)}else{s=this.a
+return A.eO(A.b([A.yt(A.b([A.iM(s.ft(p,"bgs/nel.jpg")),B.cE,A.iM(s.ft(o,"bgs/pau.JPG")),B.cE,A.iM(s.ft(n,m))],r),B.X,B.d2,B.aq),B.b2,A.yt(A.b([A.ja(l,l,q),A.iM(s.ft(k,"bgs/pat.JPG")),B.cE,A.iM(s.ft(j,"bgs/jill.jpg")),A.ja(l,l,q)],r),B.X,B.d2,B.aq)],r),B.X,B.a5,B.aq)}else{s=this.a
 r=t.E
-if(i>500)return A.eO(A.b([A.yt(A.b([A.iM(s.ft(p,j)),B.cE,A.iM(s.ft(o,j))],r),B.X,B.a5,B.aq),B.b2,A.yt(A.b([A.iM(s.ft(n,j)),B.cE,A.iM(s.ft(l,j))],r),B.X,B.a5,B.aq),B.b2,A.ja(s.ft(k,j),m,i/2)],r),B.X,B.a5,B.aq)
-else return A.eO(A.b([s.ft(p,j),B.b2,s.ft(o,j),B.b2,s.ft(n,j),B.b2,s.ft(l,j),B.b2,s.ft(k,j)],r),B.X,B.a5,B.aq)}},
+if(i>500)return A.eO(A.b([A.yt(A.b([A.iM(s.ft(p,m)),B.cE,A.iM(s.ft(o,m))],r),B.X,B.a5,B.aq),B.b2,A.yt(A.b([A.iM(s.ft(n,m)),B.cE,A.iM(s.ft(k,m))],r),B.X,B.a5,B.aq),B.b2,A.ja(s.ft(j,m),l,i/2)],r),B.X,B.a5,B.aq)
+else return A.eO(A.b([s.ft(p,m),B.b2,s.ft(o,m),B.b2,s.ft(n,m),B.b2,s.ft(k,m),B.b2,s.ft(j,m)],r),B.X,B.a5,B.aq)}},
 $S:120}
 A.a9U.prototype={
 $2(a,b){var s=null,r=b.b*0.6,q=A.b([new A.cR(0,B.bU,A.ax(B.c.au(25.5),B.l.C()>>>16&255,B.l.C()>>>8&255,B.l.C()&255),B.rk,6)],t.sq)

@@ -25,25 +25,6 @@ class _GameScreenState extends State<GameScreen>
   int _currentQuestion = 0;
   final TextEditingController _controller = TextEditingController();
 
-  final Map<String, String> _keywordToArchetype = {
-    "design": "Hipster",
-    "ui": "Hipster",
-    "figma": "Hipster",
-    "adobe": "Hipster",
-    "terminal": "Hacker",
-    "code": "Hacker",
-    "algorithm": "Hacker",
-    "hack": "Hacker",
-    "system": "Hustler",
-    "startup": "Hustler",
-    "team": "Hustler",
-    "slack": "Hustler",
-    "research": "Guru",
-    "paper": "Guru",
-    "arxiv": "Guru",
-    "scholar": "Guru",
-  };
-
   late AnimationController _logoAnimationController;
   late Animation<double> _logoScaleAnimation;
   late Animation<double> _logoOpacityAnimation;

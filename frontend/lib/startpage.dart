@@ -206,7 +206,7 @@ class StartScreen extends StatelessWidget {
                                   Expanded(
                                     child: _buildTeamMemberCard(
                                       'Ashley Denise Feliciano',
-                                      "bgs/ash.JPG",
+                                      "bgs/ash.jpg",
                                     ),
                                   ),
                                 ],
@@ -242,14 +242,14 @@ class StartScreen extends StatelessWidget {
                                   Expanded(
                                     child: _buildTeamMemberCard(
                                       'Nel Adryan Alanan',
-                                      'Ash.JPG',
+                                      'bgs/ash.jpg',
                                     ),
                                   ),
                                   const SizedBox(width: 16),
                                   Expanded(
                                     child: _buildTeamMemberCard(
                                       'Pauline Joy Bautista',
-                                      'Ash.JPG',
+                                      'bgs/ash.jpg',
                                     ),
                                   ),
                                 ],
@@ -260,14 +260,14 @@ class StartScreen extends StatelessWidget {
                                   Expanded(
                                     child: _buildTeamMemberCard(
                                       'Ashley Denise Feliciano',
-                                      'Ash.JPG',
+                                      'bgs/ash.jpg',
                                     ),
                                   ),
                                   const SizedBox(width: 16),
                                   Expanded(
                                     child: _buildTeamMemberCard(
                                       'Patrick Joseph Napud',
-                                      'Ash.JPG',
+                                      'bgs/ash.jpg',
                                     ),
                                   ),
                                 ],
@@ -277,7 +277,7 @@ class StartScreen extends StatelessWidget {
                                 width: availableWidth / 2,
                                 child: _buildTeamMemberCard(
                                   'Jill Navarra',
-                                  'Ash.JPG',
+                                  'bgs/ash.jpg',
                                 ),
                               ),
                             ],
@@ -287,25 +287,28 @@ class StartScreen extends StatelessWidget {
                             children: [
                               _buildTeamMemberCard(
                                 'Nel Adryan Alanan',
-                                'Ash.JPG',
+                                'bgs/ash.jpg',
                               ),
                               const SizedBox(height: 16),
                               _buildTeamMemberCard(
                                 'Pauline Joy Bautista',
-                                'Ash.JPG',
+                                'bgs/ash.jpg',
                               ),
                               const SizedBox(height: 16),
                               _buildTeamMemberCard(
                                 'Ashley Denise Feliciano',
-                                'Ash.JPG',
+                                'bgs/ash.jpg',
                               ),
                               const SizedBox(height: 16),
                               _buildTeamMemberCard(
                                 'Patrick Joseph Napud',
-                                'Ash.JPG',
+                                'bgs/ash.jpg',
                               ),
                               const SizedBox(height: 16),
-                              _buildTeamMemberCard('Jill Navarra', 'Ash.JPG'),
+                              _buildTeamMemberCard(
+                                'Jill Navarra',
+                                'bgs/ash.jpg',
+                              ),
                             ],
                           );
                         }
