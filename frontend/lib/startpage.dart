@@ -206,7 +206,7 @@ class StartScreen extends StatelessWidget {
                                   Expanded(
                                     child: _buildTeamMemberCard(
                                       'Ashley Denise Feliciano',
-                                      "bgs/ash.jpg",
+                                      "bgs/Ash.JPG",
                                     ),
                                   ),
                                 ],
@@ -242,14 +242,14 @@ class StartScreen extends StatelessWidget {
                                   Expanded(
                                     child: _buildTeamMemberCard(
                                       'Nel Adryan Alanan',
-                                      'bgs/ash.jpg',
+                                      'bgs/Ash.JPG',
                                     ),
                                   ),
                                   const SizedBox(width: 16),
                                   Expanded(
                                     child: _buildTeamMemberCard(
                                       'Pauline Joy Bautista',
-                                      'bgs/ash.jpg',
+                                      'bgs/Ash.JPG',
                                     ),
                                   ),
                                 ],
@@ -260,14 +260,14 @@ class StartScreen extends StatelessWidget {
                                   Expanded(
                                     child: _buildTeamMemberCard(
                                       'Ashley Denise Feliciano',
-                                      'bgs/ash.jpg',
+                                      'bgs/Ash.JPG',
                                     ),
                                   ),
                                   const SizedBox(width: 16),
                                   Expanded(
                                     child: _buildTeamMemberCard(
                                       'Patrick Joseph Napud',
-                                      'bgs/ash.jpg',
+                                      'bgs/Ash.JPG',
                                     ),
                                   ),
                                 ],
@@ -277,7 +277,7 @@ class StartScreen extends StatelessWidget {
                                 width: availableWidth / 2,
                                 child: _buildTeamMemberCard(
                                   'Jill Navarra',
-                                  'bgs/ash.jpg',
+                                  'bgs/Ash.JPG',
                                 ),
                               ),
                             ],
@@ -287,27 +287,27 @@ class StartScreen extends StatelessWidget {
                             children: [
                               _buildTeamMemberCard(
                                 'Nel Adryan Alanan',
-                                'bgs/ash.jpg',
+                                'bgs/Ash.JPG',
                               ),
                               const SizedBox(height: 16),
                               _buildTeamMemberCard(
                                 'Pauline Joy Bautista',
-                                'bgs/ash.jpg',
+                                'bgs/Ash.JPG',
                               ),
                               const SizedBox(height: 16),
                               _buildTeamMemberCard(
                                 'Ashley Denise Feliciano',
-                                'bgs/ash.jpg',
+                                'bgs/Ash.jpg',
                               ),
                               const SizedBox(height: 16),
                               _buildTeamMemberCard(
                                 'Patrick Joseph Napud',
-                                'bgs/ash.jpg',
+                                'bgs/Ash.JPG',
                               ),
                               const SizedBox(height: 16),
                               _buildTeamMemberCard(
                                 'Jill Navarra',
-                                'bgs/ash.jpg',
+                                'bgs/Ash.JPG',
                               ),
                             ],
                           );
