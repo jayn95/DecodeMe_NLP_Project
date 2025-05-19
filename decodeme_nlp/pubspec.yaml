@@ -59,6 +59,11 @@ flutter:
     - assets/bgs/user.png
     - assets/bgs/bot.png
     - assets/bgs/logo_landing.png
+    - assets/bgs/nel.jpg
+    - assets/bgs/pau.JPG
+    - assets/bgs/ash.JPG
+    - assets/bgs/pat.JPG
+    - assets/bgs/jill.jpg
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
