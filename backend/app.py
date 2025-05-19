@@ -95,14 +95,13 @@ def predict():
         job_description = final_jobs.iloc[0]['Job Description']
     else:
         recommended_job = "No job found"
-        job_description = "Look for information on the internet."
+        job_description = "No description available"
 
     # print("Received data:", request.json)
 
     return jsonify({
         "final_subfield": final_subfield,
         "recommended_job": recommended_job,
-        "job_description": job_description,
         "individual_predictions": predictions,
         "processed_answers": processed_answers
     })
