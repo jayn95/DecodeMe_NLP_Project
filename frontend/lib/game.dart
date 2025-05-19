@@ -318,6 +318,7 @@ class _GameScreenState extends State<GameScreen>
                                       onSubmitted: (_) => _submitAnswer(),
                                       textAlign: TextAlign.justify,
                                       maxLines: 1,
+                                      maxLength: 200, // <-- Add this line
                                       decoration: InputDecoration(
                                         hintText: 'Type your message...',
                                         hintStyle: const TextStyle(
@@ -339,6 +340,8 @@ class _GameScreenState extends State<GameScreen>
                                           icon: const Icon(Icons.arrow_forward),
                                           onPressed: _submitAnswer,
                                         ),
+                                        counterText:
+                                            '', // Optional: Hide the character counter below the field
                                       ),
                                     ),
                                   ),
