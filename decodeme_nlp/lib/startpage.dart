@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class StartScreen extends StatelessWidget {
-  const StartScreen({Key? key}) : super(key: key);
+  const StartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -185,21 +185,21 @@ class StartScreen extends StatelessWidget {
                                   Expanded(
                                     child: _buildTeamMemberCard(
                                       'Nel Adryan Alanan',
-                                      'Ash.JPG',
+                                      "bgs/nel.jpg",
                                     ),
                                   ),
                                   const SizedBox(width: 16),
                                   Expanded(
                                     child: _buildTeamMemberCard(
                                       'Pauline Joy Bautista',
-                                      'Ash.JPG',
+                                      "bgs/pau.JPG",
                                     ),
                                   ),
                                   const SizedBox(width: 16),
                                   Expanded(
                                     child: _buildTeamMemberCard(
                                       'Ashley Denise Feliciano',
-                                      'Ash.JPG',
+                                      "bgs/ash.JPG",
                                     ),
                                   ),
                                 ],
@@ -213,14 +213,14 @@ class StartScreen extends StatelessWidget {
                                   Expanded(
                                     child: _buildTeamMemberCard(
                                       'Patrick Joseph Napud',
-                                      'Ash.JPG',
+                                      "bgs/pat.JPG",
                                     ),
                                   ),
                                   const SizedBox(width: 16),
                                   Expanded(
                                     child: _buildTeamMemberCard(
                                       'Jill Navarra',
-                                      'Ash.JPG',
+                                      "bgs/jill.jpg",
                                     ),
                                   ),
                                   SizedBox(width: availableWidth * 0.16),
@@ -363,16 +363,32 @@ class StartScreen extends StatelessWidget {
   Widget _buildTeamMemberCard(String name, String imageFileName) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        // Calculate image size with padding (80% of available width)
-        final double imageSize = constraints.maxWidth * 0.8;
+        // Use 60% of available width for a balanced circle
+        final double imageSize = constraints.maxWidth * 0.6;
 
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(
+            Container(
               width: imageSize,
               height: imageSize,
-              child: Image.asset('assets/$imageFileName', fit: BoxFit.cover),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 6,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: ClipOval(
+                child: Image.asset(
+                  'assets/$imageFileName',
+                  fit: BoxFit.cover, // ensures image fills the circle
+                  alignment: Alignment.center,
+                ),
+              ),
             ),
             const SizedBox(height: 12),
             Padding(
