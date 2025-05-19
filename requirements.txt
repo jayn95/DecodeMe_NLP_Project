@@ -1,0 +1,10 @@
+requests
+bs4
+pandas
+Flask
+Flask-Cors
+scikit-learn
+nltk
+numpy
+joblib
+gunicorn

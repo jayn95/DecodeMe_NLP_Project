@@ -7,9 +7,11 @@ import numpy as np
 import re, string
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+from flask_cors import CORS
 
 # Initialize app
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Load model and vectorizer
 
@@ -88,12 +90,19 @@ def predict():
         "individual_predictions": predictions,
         "processed_answers": processed_answers
     })
+    print("Received data:", request.json)
 
-# (Optional) Route to frontend HTML
+from flask import send_from_directory
+
 @app.route('/')
-def home():
-    return render_template('index.html')
+def serve_flutter_app():
+    return send_from_directory('../frontend/build/web', 'index.html')
+
+@app.route('/<path:path>')
+def serve_static_file(path):
+    return send_from_directory('../frontend/build/web', path)
 
 # Run the app
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)

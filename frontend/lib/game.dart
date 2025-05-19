@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'result_screen.dart';
 import 'startpage.dart'; // Make sure you have this screen implemented
+import 'package:http/http.dart' as http;
 
 class GameScreen extends StatefulWidget {
   const GameScreen({super.key});
@@ -154,9 +155,14 @@ class _GameScreenState extends State<GameScreen>
     List<String> answers,
   ) async {
     try {
-      final url = Uri.parse(
-        'https://your-backend-domain/predict',
-      ); // your model server URL
+      const bool isProduction = bool.fromEnvironment('dart.vm.product');
+
+      const String baseUrl =
+          isProduction
+              ? 'https://your-backend-domain'
+              : 'http://127.0.0.1:5000'; // your model server URL
+
+      final url = Uri.parse('$baseUrl/predict'); // your model server URL
       final response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
