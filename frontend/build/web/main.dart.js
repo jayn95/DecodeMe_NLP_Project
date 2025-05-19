@@ -37989,7 +37989,7 @@ uw(a){return this.a0y(a)},
 a0y(a){var s=0,r=A.S(t.nA),q,p=2,o=[],n,m,l,k,j,i,h
 var $async$uw=A.T(function(b,c){if(b===1){o.push(c)
 s=p}while(true)switch(s){case 0:p=4
-n=A.ii("https://your-backend-domain/predict")
+n=A.ii("https://decodeme-nlp-project.onrender.com/predict")
 k=t.N
 j=A.an(["Content-Type","application/json"],k,k)
 s=7
