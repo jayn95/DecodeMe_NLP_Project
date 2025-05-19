@@ -25,24 +25,24 @@ class _GameScreenState extends State<GameScreen>
   int _currentQuestion = 0;
   final TextEditingController _controller = TextEditingController();
 
-  final Map<String, String> _keywordToArchetype = {
-    "design": "Hipster",
-    "ui": "Hipster",
-    "figma": "Hipster",
-    "adobe": "Hipster",
-    "terminal": "Hacker",
-    "code": "Hacker",
-    "algorithm": "Hacker",
-    "hack": "Hacker",
-    "system": "Hustler",
-    "startup": "Hustler",
-    "team": "Hustler",
-    "slack": "Hustler",
-    "research": "Guru",
-    "paper": "Guru",
-    "arxiv": "Guru",
-    "scholar": "Guru",
-  };
+  // final Map<String, String> _keywordToArchetype = {
+  //   "design": "Hipster",
+  //   "ui": "Hipster",
+  //   "figma": "Hipster",
+  //   "adobe": "Hipster",
+  //   "terminal": "Hacker",
+  //   "code": "Hacker",
+  //   "algorithm": "Hacker",
+  //   "hack": "Hacker",
+  //   "system": "Hustler",
+  //   "startup": "Hustler",
+  //   "team": "Hustler",
+  //   "slack": "Hustler",
+  //   "research": "Guru",
+  //   "paper": "Guru",
+  //   "arxiv": "Guru",
+  //   "scholar": "Guru",
+  // };
 
   late AnimationController _logoAnimationController;
   late Animation<double> _logoScaleAnimation;
@@ -125,6 +125,8 @@ class _GameScreenState extends State<GameScreen>
           // Extract final recommendation from server response
           final archetype = predictionData['final_subfield'] ?? "Unknown";
           final recommendedJob = predictionData['recommended_job'] ?? "N/A";
+          final jobDescription =
+              predictionData['job_description'] ?? "No description available";
 
           Navigator.pushReplacement(
             context,
@@ -135,6 +137,7 @@ class _GameScreenState extends State<GameScreen>
                     questions: _questions,
                     answers: _answers,
                     recommendedJob: recommendedJob,
+                    jobDescription: jobDescription,
                     onRestart: () {
                       Navigator.pushReplacement(
                         context,

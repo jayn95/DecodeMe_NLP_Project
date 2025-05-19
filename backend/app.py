@@ -89,11 +89,20 @@ def predict():
     final_jobs = df[df['Subfield'] == final_subfield]['Job Title'].unique()
     recommended_job = final_jobs[0] if len(final_jobs) > 0 else "No job found"
 
-    print("Received data:", request.json)
+    # Pick the first job and get its description
+    if not final_jobs.empty:
+        recommended_job = final_jobs.iloc[0]['Job Title']
+        job_description = final_jobs.iloc[0]['Job Description']
+    else:
+        recommended_job = "No job found"
+        job_description = "No description available"
+
+    # print("Received data:", request.json)
 
     return jsonify({
         "final_subfield": final_subfield,
         "recommended_job": recommended_job,
+        "job_description": job_description,
         "individual_predictions": predictions,
         "processed_answers": processed_answers
     })
