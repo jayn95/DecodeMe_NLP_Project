@@ -5,8 +5,9 @@ class StartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scrollController = ScrollController();
+
     return Scaffold(
-      // Using Stack to place elements on top of the background
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -15,15 +16,14 @@ class StartScreen extends StatelessWidget {
             end: Alignment.bottomCenter,
           ),
         ),
-        // Scrollable content
         child: SingleChildScrollView(
+          controller: scrollController,
           physics: const BouncingScrollPhysics(),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(),
-              // Logo image
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 32),
                 child: Image.asset(
@@ -34,10 +34,20 @@ class StartScreen extends StatelessWidget {
                 ),
               ),
 
-              // Animated Get Started button
               Padding(
                 padding: const EdgeInsets.only(bottom: 32),
                 child: _AnimatedGetStartedButton(),
+              ),
+
+              // 🔽 Scroll indicator
+              AnimatedScrollIndicator(
+                onTap: () {
+                  scrollController.animateTo(
+                    scrollController.position.maxScrollExtent / 3,
+                    duration: const Duration(milliseconds: 600),
+                    curve: Curves.easeInOut,
+                  );
+                },
               ),
 
               const SizedBox(height: 80),
@@ -68,7 +78,7 @@ class StartScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 40),
 
-                    // Feature cards with consistent sizing
+                    // Feature cards
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: LayoutBuilder(
@@ -105,7 +115,6 @@ class StartScreen extends StatelessWidget {
                                 constraints.maxWidth > 400
                                     ? 400
                                     : constraints.maxWidth - 32;
-
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -170,7 +179,6 @@ class StartScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 40),
 
-                    // Team member grid
                     LayoutBuilder(
                       builder: (context, constraints) {
                         final availableWidth = constraints.maxWidth;
@@ -178,7 +186,6 @@ class StartScreen extends StatelessWidget {
                         if (availableWidth > 700) {
                           return Column(
                             children: [
-                              // First row - 3 members
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -205,7 +212,6 @@ class StartScreen extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 16),
-                              // Second row - 2 members
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -316,7 +322,6 @@ class StartScreen extends StatelessWidget {
     );
   }
 
-  // Feature card with adaptive width and flexible height
   Widget _buildFeatureCard(
     String title,
     String description,
@@ -363,7 +368,6 @@ class StartScreen extends StatelessWidget {
   Widget _buildTeamMemberCard(String name, String imageFileName) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        // Use 60% of available width for a balanced circle
         final double imageSize = constraints.maxWidth * 0.6;
 
         return Column(
@@ -385,7 +389,7 @@ class StartScreen extends StatelessWidget {
               child: ClipOval(
                 child: Image.asset(
                   'assets/$imageFileName',
-                  fit: BoxFit.cover, // ensures image fills the circle
+                  fit: BoxFit.cover,
                   alignment: Alignment.center,
                 ),
               ),
@@ -409,7 +413,7 @@ class StartScreen extends StatelessWidget {
   }
 }
 
-// Animated Get Started button widget with press scale effect and navigation
+// ✅ Animated Get Started Button
 class _AnimatedGetStartedButton extends StatefulWidget {
   @override
   State<_AnimatedGetStartedButton> createState() =>
@@ -442,7 +446,7 @@ class _AnimatedGetStartedButtonState extends State<_AnimatedGetStartedButton>
   }
 
   Future<void> _onTap() async {
-    if (_pressed) return; // Prevent multiple taps
+    if (_pressed) return;
 
     setState(() {
       _pressed = true;
@@ -471,6 +475,58 @@ class _AnimatedGetStartedButtonState extends State<_AnimatedGetStartedButton>
           ),
         ),
         child: const Text('Get Started', style: TextStyle(fontSize: 24)),
+      ),
+    );
+  }
+}
+
+// ✅ Scroll Down Arrow Animation
+class AnimatedScrollIndicator extends StatefulWidget {
+  final VoidCallback? onTap;
+  const AnimatedScrollIndicator({Key? key, this.onTap}) : super(key: key);
+
+  @override
+  State<AnimatedScrollIndicator> createState() =>
+      _AnimatedScrollIndicatorState();
+}
+
+class _AnimatedScrollIndicatorState extends State<AnimatedScrollIndicator>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<Offset> _offsetAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    )..repeat(reverse: true);
+
+    _offsetAnimation = Tween<Offset>(
+      begin: Offset(0, 0),
+      end: Offset(0, 0.3),
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: widget.onTap,
+      child: SlideTransition(
+        position: _offsetAnimation,
+        child: const Icon(
+          Icons.keyboard_arrow_down_rounded,
+          size: 48,
+          color: Colors.grey,
+        ),
       ),
     );
   }
